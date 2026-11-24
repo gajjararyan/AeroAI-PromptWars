@@ -9,7 +9,8 @@
 > **Built by:** Aryan Gajjar (`gajjararyan1509@gmail.com`)  
 > **Challenge:** PromptWars: Virtual — Challenge 06 (Urban Air Quality Assistant)  
 > **Organizers:** Hack2skill & Google for Developers  
-> **Live Demo:** [Deploy with Vercel / Netlify]
+> **Live Deployed App:** [https://aero-ai-prompt-wars.vercel.app/](https://aero-ai-prompt-wars.vercel.app/)  
+> **GitHub Repository:** [https://github.com/gajjararyan/AeroAI-PromptWars](https://github.com/gajjararyan/AeroAI-PromptWars)
 
 ---
 

@@ -33,6 +33,8 @@ export default function SubmissionModal({ isOpen, onClose }) {
 
   const projectOverview = `Project Title: AeroAI - Urban Air Quality & Smog Emergency Assistant
 Participant: Aryan Gajjar (gajjararyan1509@gmail.com)
+Live Preview URL: https://aero-ai-prompt-wars.vercel.app/
+GitHub Repository: https://github.com/gajjararyan/AeroAI-PromptWars
 Event: Hack2skill PromptWars Virtual (Challenge 06)
 Track / Theme: Urban Climate Resilience & Public Health
 AI Environment: Google Antigravity & Google Gemini 1.5 Flash
