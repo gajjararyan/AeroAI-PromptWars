@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { BarChart3, TrendingDown, Users, Leaf, ShieldAlert, Sparkles, Building2, Heart } from 'lucide-react';
+import { BarChart3, TrendingDown, Leaf, ShieldAlert } from 'lucide-react';
 
-export default function ImpactCalculator({ selectedCity }) {
+export default function ImpactCalculator({ selectedCity: _selectedCity }) {
   const [commuteShift, setCommuteShift] = useState(18); // km shifted to metro/carpool daily
   const [avoidedBiomass, setAvoidedBiomass] = useState(true); // electric heater vs wood/fire burning
   const [indoorFiltrationDays, setIndoorFiltrationDays] = useState(30); // days active
@@ -14,51 +14,64 @@ export default function ImpactCalculator({ selectedCity }) {
   const lungAvertedMg = ((indoorFiltrationDays * 0.72) * (avoidedBiomass ? 1.5 : 1.0)).toFixed(1); // mg PM2.5 kept out of deep alveoli
 
   // Community scaling
-  const communityCo2Tons = ((personalCo2 * communityHomes) / 1000).toFixed(2);
-  const communityPmKg = ((personalPm * communityHomes) / 1000).toFixed(2);
+  const communityCo2Tons = ((Number(personalCo2) * communityHomes) / 1000).toFixed(2);
+  const communityPmKg = ((Number(personalPm) * communityHomes) / 1000).toFixed(2);
   const communityTrees = Math.round(Number(personalCo2) * communityHomes / 21);
 
   return (
-    <div className="glass rounded-2xl border border-white/5 p-5 sm:p-6 space-y-6">
+    <section 
+      aria-labelledby="impact-heading"
+      className="glass rounded-2xl border border-white/10 p-5 sm:p-6 space-y-6"
+    >
       {/* Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-white/5">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-white/10">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-            <BarChart3 className="w-4 h-4" />
+            <BarChart3 className="w-4 h-4" aria-hidden="true" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-white font-display flex items-center gap-2">
+            <h3 id="impact-heading" className="text-base font-bold text-white font-display flex items-center gap-2">
               Direct Impact & Emission Abatement Engine
               <span className="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded-full font-semibold">
                 Quantifiable Metrics
               </span>
             </h3>
-            <p className="text-xs text-slate-400">Real-time climate and pulmonary exposure calculation model</p>
+            <p className="text-xs text-slate-300">Real-time climate and pulmonary exposure calculation model</p>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Sliders Side */}
-        <div className="lg:col-span-5 space-y-5 bg-white/2 rounded-2xl p-4 border border-white/5">
-          <p className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">Adjust Lifestyle Parameters</p>
+        <div className="lg:col-span-5 space-y-5 bg-white/5 rounded-2xl p-4 border border-white/10">
+          <p className="text-xs font-bold text-slate-200 uppercase tracking-wider mb-2">
+            Adjust Lifestyle Parameters
+          </p>
 
           {/* Commute Shift */}
           <div>
-            <div className="flex justify-between text-xs font-semibold text-slate-300 mb-1.5">
-              <span>Solo Car Commute Replaced by Transit:</span>
-              <span className="text-blue-400 font-bold">{commuteShift} km / day</span>
+            <div className="flex justify-between text-xs font-semibold text-slate-200 mb-1.5">
+              <label htmlFor="commute-range" className="cursor-pointer">
+                Solo Car Commute Replaced by Transit:
+              </label>
+              <span className="text-blue-400 font-bold" aria-live="polite">{commuteShift} km / day</span>
             </div>
             <input
+              id="commute-range"
               type="range"
               min="0"
               max="50"
               step="2"
               value={commuteShift}
               onChange={(e) => setCommuteShift(Number(e.target.value))}
-              className="w-full accent-blue-500 bg-slate-800 h-2 rounded-lg cursor-pointer"
+              aria-label="Kilometers of solo car commute shifted to transit per day"
+              aria-valuemin="0"
+              aria-valuemax="50"
+              aria-valuenow={commuteShift}
+              aria-valuetext={`${commuteShift} kilometers per day`}
+              className="w-full accent-blue-500 bg-slate-800 h-2 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
-            <div className="flex justify-between text-[10px] text-slate-500 mt-1">
+            <div className="flex justify-between text-[10px] text-slate-400 mt-1" aria-hidden="true">
               <span>0 km</span>
               <span>25 km</span>
               <span>50 km</span>
@@ -67,20 +80,28 @@ export default function ImpactCalculator({ selectedCity }) {
 
           {/* Duration */}
           <div>
-            <div className="flex justify-between text-xs font-semibold text-slate-300 mb-1.5">
-              <span>Winter Smog Duration (Days of Active Containment):</span>
-              <span className="text-blue-400 font-bold">{indoorFiltrationDays} Days</span>
+            <div className="flex justify-between text-xs font-semibold text-slate-200 mb-1.5">
+              <label htmlFor="duration-range" className="cursor-pointer">
+                Winter Smog Duration (Days of Active Containment):
+              </label>
+              <span className="text-blue-400 font-bold" aria-live="polite">{indoorFiltrationDays} Days</span>
             </div>
             <input
+              id="duration-range"
               type="range"
               min="7"
               max="90"
               step="7"
               value={indoorFiltrationDays}
               onChange={(e) => setIndoorFiltrationDays(Number(e.target.value))}
-              className="w-full accent-blue-500 bg-slate-800 h-2 rounded-lg cursor-pointer"
+              aria-label="Days of active indoor air containment"
+              aria-valuemin="7"
+              aria-valuemax="90"
+              aria-valuenow={indoorFiltrationDays}
+              aria-valuetext={`${indoorFiltrationDays} days`}
+              className="w-full accent-blue-500 bg-slate-800 h-2 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
-            <div className="flex justify-between text-[10px] text-slate-500 mt-1">
+            <div className="flex justify-between text-[10px] text-slate-400 mt-1" aria-hidden="true">
               <span>1 Week</span>
               <span>1 Month</span>
               <span>3 Months</span>
@@ -88,8 +109,12 @@ export default function ImpactCalculator({ selectedCity }) {
           </div>
 
           {/* Clean Heating Toggle */}
-          <label className="flex items-start gap-3 bg-white/3 border border-white/5 p-3 rounded-xl cursor-pointer hover:border-white/15 transition-all">
+          <label 
+            htmlFor="biomass-checkbox"
+            className="flex items-start gap-3 bg-white/5 border border-white/10 p-3 rounded-xl cursor-pointer hover:border-white/20 transition-all focus-within:ring-2 focus-within:ring-blue-500"
+          >
             <input
+              id="biomass-checkbox"
               type="checkbox"
               checked={avoidedBiomass}
               onChange={(e) => setAvoidedBiomass(e.target.checked)}
@@ -99,26 +124,34 @@ export default function ImpactCalculator({ selectedCity }) {
               <span className="text-xs font-bold text-white block">
                 Zero Open Biomass / Waste Space Heating
               </span>
-              <span className="text-[11px] text-slate-400 leading-relaxed block mt-0.5">
+              <span className="text-[11px] text-slate-300 leading-relaxed block mt-0.5">
                 Using electric infrared/oil radiators instead of burning scrap wood, coal, or yard waste.
               </span>
             </div>
           </label>
 
           {/* Community Adoption Slider */}
-          <div className="pt-2 border-t border-white/5">
-            <div className="flex justify-between text-xs font-semibold text-slate-300 mb-1.5">
-              <span>Community Adoption Scale (Homes in Colony):</span>
-              <span className="text-violet-400 font-bold">{communityHomes} Homes</span>
+          <div className="pt-2 border-t border-white/10">
+            <div className="flex justify-between text-xs font-semibold text-slate-200 mb-1.5">
+              <label htmlFor="community-range" className="cursor-pointer">
+                Community Adoption Scale (Homes in Colony):
+              </label>
+              <span className="text-violet-400 font-bold" aria-live="polite">{communityHomes} Homes</span>
             </div>
             <input
+              id="community-range"
               type="range"
               min="20"
               max="1000"
               step="20"
               value={communityHomes}
               onChange={(e) => setCommunityHomes(Number(e.target.value))}
-              className="w-full accent-violet-500 bg-slate-800 h-2 rounded-lg cursor-pointer"
+              aria-label="Number of neighborhood homes adopting clean air routines"
+              aria-valuemin="20"
+              aria-valuemax="1000"
+              aria-valuenow={communityHomes}
+              aria-valuetext={`${communityHomes} homes`}
+              className="w-full accent-violet-500 bg-slate-800 h-2 rounded-lg cursor-pointer focus:outline-none focus:ring-2 focus:ring-violet-400"
             />
           </div>
         </div>
@@ -126,14 +159,14 @@ export default function ImpactCalculator({ selectedCity }) {
         {/* Results Cards Side */}
         <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3.5">
           {/* Card 1: Personal CO2 */}
-          <div className="glass rounded-2xl p-4 border border-emerald-500/20 bg-emerald-500/5 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-xs text-slate-400">
+          <div className="glass rounded-2xl p-4 border border-emerald-500/30 bg-emerald-950/20 flex flex-col justify-between">
+            <div className="flex items-center justify-between text-xs text-slate-300">
               <span className="font-semibold text-emerald-300">Your Avoided CO₂</span>
-              <Leaf className="w-4 h-4 text-emerald-400" />
+              <Leaf className="w-4 h-4 text-emerald-400" aria-hidden="true" />
             </div>
             <div className="my-3">
               <span className="text-3xl font-extrabold text-white font-display">{personalCo2}</span>
-              <span className="text-xs text-emerald-400 font-semibold ml-1.5">kg CO₂</span>
+              <span className="text-xs text-emerald-300 font-semibold ml-1.5">kg CO₂</span>
             </div>
             <p className="text-[11px] text-slate-300 leading-relaxed">
               Eliminated directly by shifting away from low-efficiency combustion vehicles.
@@ -141,10 +174,10 @@ export default function ImpactCalculator({ selectedCity }) {
           </div>
 
           {/* Card 2: Toxic PM2.5 Abated */}
-          <div className="glass rounded-2xl p-4 border border-sky-500/20 bg-sky-500/5 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-xs text-slate-400">
+          <div className="glass rounded-2xl p-4 border border-sky-500/30 bg-sky-950/20 flex flex-col justify-between">
+            <div className="flex items-center justify-between text-xs text-slate-300">
               <span className="font-semibold text-sky-300">PM2.5 Tailpipe Diverted</span>
-              <TrendingDown className="w-4 h-4 text-sky-400" />
+              <TrendingDown className="w-4 h-4 text-sky-400" aria-hidden="true" />
             </div>
             <div className="my-3">
               <span className="text-3xl font-extrabold text-sky-400 font-display">{personalPm}</span>
@@ -156,10 +189,10 @@ export default function ImpactCalculator({ selectedCity }) {
           </div>
 
           {/* Card 3: Deep Lung Inhalation Spared */}
-          <div className="glass rounded-2xl p-4 border border-rose-500/20 bg-rose-500/5 flex flex-col justify-between">
-            <div className="flex items-center justify-between text-xs text-slate-400">
+          <div className="glass rounded-2xl p-4 border border-rose-500/30 bg-rose-950/20 flex flex-col justify-between">
+            <div className="flex items-center justify-between text-xs text-slate-300">
               <span className="font-semibold text-rose-300">Deep Alveolar Sparing</span>
-              <ShieldAlert className="w-4 h-4 text-rose-400" />
+              <ShieldAlert className="w-4 h-4 text-rose-400" aria-hidden="true" />
             </div>
             <div className="my-3">
               <span className="text-3xl font-extrabold text-rose-400 font-display">{lungAvertedMg}</span>
@@ -171,10 +204,10 @@ export default function ImpactCalculator({ selectedCity }) {
           </div>
 
           {/* Card 4: Community Multiplier */}
-          <div className="glass rounded-2xl p-4 border border-violet-500/20 bg-gradient-to-br from-violet-950/40 to-indigo-950/40 flex flex-col justify-between">
+          <div className="glass rounded-2xl p-4 border border-violet-500/30 bg-gradient-to-br from-violet-950/40 to-indigo-950/40 flex flex-col justify-between">
             <div className="flex items-center justify-between text-xs text-violet-300">
-              <span className="font-semibold">Neighborhood Multiplier ({communityHomes} Homes)</span>
-              <Users className="w-4 h-4 text-violet-400" />
+              <span className="font-semibold">Neighborhood Scale ({communityHomes} Homes)</span>
+              <BarChart3 className="w-4 h-4 text-violet-400" aria-hidden="true" />
             </div>
             <div className="my-3">
               <span className="text-3xl font-extrabold text-white font-display">{communityCo2Tons}</span>
@@ -186,6 +219,6 @@ export default function ImpactCalculator({ selectedCity }) {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

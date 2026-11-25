@@ -7,6 +7,7 @@ export default function ParticleCanvas() {
     const canvas = ref.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     let w = canvas.width = window.innerWidth;
     let h = canvas.height = window.innerHeight;
     let raf;

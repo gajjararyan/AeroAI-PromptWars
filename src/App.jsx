@@ -12,10 +12,8 @@ import {
   Wrench, 
   BarChart3, 
   MessageSquare,
-  Shield,
-  Heart
+  Shield
 } from 'lucide-react';
-import { CITIES_DATA } from './data/mockData';
 
 export default function App() {
   const [selectedCity, setSelectedCity] = useState("delhi");
@@ -28,8 +26,6 @@ export default function App() {
     housing: "High-Rise Apartment (8th+ floor)",
     cooking: "LPG Gas Burner"
   });
-
-  const city = CITIES_DATA[selectedCity] || CITIES_DATA.delhi;
 
   const tabs = [
     { id: "dashboard", label: "Smog Defense & Routines", icon: CalendarClock },

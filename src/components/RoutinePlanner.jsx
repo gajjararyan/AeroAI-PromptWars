@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Clock, AlertTriangle, Shield, ArrowRight, CheckCircle2, XCircle, Sunrise, Sunset, Moon } from 'lucide-react';
+import { Clock, Shield, ArrowRight, CheckCircle2, Sunrise, Sunset, Moon } from 'lucide-react';
 import { CITIES_DATA } from '../data/mockData';
 
 const SLOTS = (city, profile) => [
@@ -59,49 +59,63 @@ const SLOTS = (city, profile) => [
 ];
 
 const dangerConfig = {
-  extreme: { bg: 'bg-red-950/30', border: 'border-red-700/40', badge: 'bg-red-500/20 text-red-300 border-red-500/30', dot: 'bg-red-500' },
-  high:    { bg: 'bg-orange-950/20', border: 'border-orange-700/30', badge: 'bg-orange-500/20 text-orange-300 border-orange-500/30', dot: 'bg-orange-400' },
-  moderate:{ bg: 'bg-yellow-950/20', border: 'border-yellow-700/30', badge: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30', dot: 'bg-yellow-400' },
-  safe:    { bg: 'bg-emerald-950/20', border: 'border-emerald-700/30', badge: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30', dot: 'bg-emerald-400' },
+  extreme: { bg: 'bg-red-950/30', border: 'border-red-700/40', badge: 'bg-red-500/20 text-red-300 border-red-500/30' },
+  high:    { bg: 'bg-orange-950/20', border: 'border-orange-700/30', badge: 'bg-orange-500/20 text-orange-300 border-orange-500/30' },
+  moderate:{ bg: 'bg-yellow-950/20', border: 'border-yellow-700/30', badge: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' },
+  safe:    { bg: 'bg-emerald-950/20', border: 'border-emerald-700/30', badge: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' },
 };
 
 export default function RoutinePlanner({ selectedCity, profile }) {
   const [expanded, setExpanded] = useState(null);
-  const city = CITIES_DATA[selectedCity];
+  const city = CITIES_DATA[selectedCity] || CITIES_DATA.delhi;
   const slots = SLOTS(city, profile);
 
   return (
-    <div className="glass rounded-2xl border border-white/5 p-5">
+    <section 
+      aria-labelledby="routine-heading" 
+      className="glass rounded-2xl border border-white/10 p-5"
+    >
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg bg-blue-500/20 flex items-center justify-center">
-            <Clock className="w-4 h-4 text-blue-400" />
+            <Clock className="w-4 h-4 text-blue-400" aria-hidden="true" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-white font-display">AI Routine Planner</h3>
-            <p className="text-[11px] text-slate-500">Tailored to {city.name}'s diurnal smog inversion pattern</p>
+            <h3 id="routine-heading" className="text-sm font-bold text-white font-display">
+              AI Diurnal Routine Planner
+            </h3>
+            <p className="text-[11px] text-slate-400">Tailored to {city.name}'s diurnal smog inversion pattern</p>
           </div>
         </div>
-        <div className="flex items-center gap-1.5 text-[11px] text-emerald-400 glass-green rounded-full px-2.5 py-1 border border-emerald-500/30">
-          <Shield className="w-3 h-3" />
+        <div className="flex items-center gap-1.5 text-[11px] text-emerald-300 glass-green rounded-full px-2.5 py-1 border border-emerald-500/40">
+          <Shield className="w-3.5 h-3.5" aria-hidden="true" />
           <span>Reduces inhaled PM by ~68%</span>
         </div>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-2.5" role="list" aria-label="Hourly diurnal smog schedule">
         {slots.map((slot, i) => {
           const cfg = dangerConfig[slot.danger];
           const Icon = slot.icon;
           const open = expanded === i;
+          const panelId = `routine-panel-${i}`;
+          const buttonId = `routine-btn-${i}`;
           return (
-            <div key={i} className={`rounded-xl border ${cfg.bg} ${cfg.border} overflow-hidden transition-all duration-300`}>
-              <button className="w-full flex items-center gap-3 p-3.5 text-left"
-                onClick={() => setExpanded(open ? null : i)}>
-                {/* Time-of-day icon */}
+            <div 
+              key={i} 
+              role="listitem"
+              className={`rounded-xl border ${cfg.bg} ${cfg.border} overflow-hidden transition-all duration-300`}
+            >
+              <button 
+                id={buttonId}
+                aria-expanded={open}
+                aria-controls={panelId}
+                className="w-full flex items-center gap-3 p-3.5 text-left focus:outline-none focus:ring-2 focus:ring-blue-500"
+                onClick={() => setExpanded(open ? null : i)}
+              >
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${cfg.bg} border ${cfg.border}`}>
-                  <Icon className="w-4 h-4 text-slate-300" />
+                  <Icon className="w-4 h-4 text-slate-200" aria-hidden="true" />
                 </div>
-                {/* Time + phase */}
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-2 mb-0.5">
                     <span className="text-xs font-bold text-white">{slot.time}</span>
@@ -109,20 +123,26 @@ export default function RoutinePlanner({ selectedCity, profile }) {
                       {slot.aqiZone}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-400 truncate">{slot.phase}</p>
+                  <p className="text-xs text-slate-300 truncate">{slot.phase}</p>
                 </div>
-                {/* Expand icon */}
-                <div className={`transition-transform duration-200 ${open ? 'rotate-90' : ''}`}>
-                  <ArrowRight className="w-3.5 h-3.5 text-slate-500" />
+                <div className={`transition-transform duration-200 ${open ? 'rotate-90' : ''}`} aria-hidden="true">
+                  <ArrowRight className="w-4 h-4 text-slate-400" />
                 </div>
               </button>
 
               {open && (
-                <div className="px-3.5 pb-4 space-y-2 border-t border-white/5 pt-3">
-                  <p className="text-xs text-slate-300 leading-relaxed">{slot.desc}</p>
-                  <div className="flex items-start gap-2 bg-white/3 rounded-lg px-3 py-2 border border-white/5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-400 mt-0.5 shrink-0" />
-                    <p className="text-xs text-slate-300"><span className="font-semibold text-blue-300">Action: </span>{slot.action}</p>
+                <div 
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={buttonId}
+                  className="px-3.5 pb-4 space-y-2 border-t border-white/5 pt-3"
+                >
+                  <p className="text-xs text-slate-200 leading-relaxed">{slot.desc}</p>
+                  <div className="flex items-start gap-2 bg-white/5 rounded-lg px-3 py-2 border border-white/5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-400 mt-0.5 shrink-0" aria-hidden="true" />
+                    <p className="text-xs text-slate-300">
+                      <strong className="text-blue-300 font-semibold">Action: </strong>{slot.action}
+                    </p>
                   </div>
                 </div>
               )}
@@ -130,6 +150,6 @@ export default function RoutinePlanner({ selectedCity, profile }) {
           );
         })}
       </div>
-    </div>
+    </section>
   );
 }
