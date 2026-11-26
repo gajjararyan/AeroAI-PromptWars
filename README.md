@@ -17,53 +17,43 @@
 
 ---
 
-## 🎯 The Problem Addressed
+## 🎯 Chosen Vertical & Persona
 
-During winter months in urban centers like **Delhi NCR, Lahore, and Beijing**, temperature inversions trap extreme concentrations of fine particulate matter (**PM2.5 > 280–320 µg/m³**, over **56× to 62× the WHO safe limit**) near the ground. 
-
-Most existing AQI apps only display passive numbers without explaining:
-1. **When** it is safe or lethal to go outside (diurnal boundary layer dynamics).
-2. **How** families with infants, elderly, or asthmatics should adapt routines.
-3. **What** zero-cost or frugal indoor hacks (Corsi-Rosenthal box, static wet-mopping) can clean home air without ₹20,000 commercial purifiers.
-4. **The measurable impact** of collective sustainable alternatives on personal lung health and urban emissions.
-
-**AeroAI** bridges this gap by turning passive monitoring into personalized, life-saving diurnal action plans.
+- **Vertical:** **Challenge 06 — Urban Air Quality Assistant**
+- **Target Persona:** Vulnerable urban households living in hyper-polluted winter metros (Delhi NCR, Lahore, Mumbai, Beijing) navigating dangerous seasonal smog, temperature inversions, and high PM2.5 concentrations.
+- **The Problem:** During severe winter inversions, fine particulate matter (**PM2.5 > 280–320 µg/m³**, over **56× to 62× WHO thresholds**) is trapped near the ground. Most AQI apps only show passive numbers without translating meteorological physics into actionable, hour-by-hour diurnal survival routines, indoor air purification hacks, or personalized health defense plans.
 
 ---
 
-## 🌟 Key Features
+## 🧠 Approach & Logic
 
-### 1. 🎛️ Dynamic AQI & Diurnal Inversion Engine
-- Real-time meteorological models across **Delhi NCR, Lahore, Mumbai, Beijing, NYC, and London**.
-- Custom SVG radial needle gauge tracking US AQI, hazard bands, and WHO multiples.
-- Pinpoints the **Midday Solar Dispersion Window** (only safe time for errands and brief ventilation) vs. **Pre-Dawn & Evening Inversion Traps**.
+AeroAI addresses urban air toxicity using a 4-tier decision-making engine:
 
-### 2. 👨‍👩‍👧‍👦 Multi-Axis Household Profiler
-- Accounts for sensitive members (**Infants, Elderly, Asthmatics, Pregnant women, Pets**).
-- Modulates risk based on commute modes (**Metro, Two-Wheeler, Car recirculation, Walking**) and housing microclimate (**high-rise vs ground floor traffic soot exposure**).
+1. **Meteorological Boundary-Layer Logic:** Instead of treating daily air as uniformly bad, AeroAI maps the diurnal cycle of the planetary boundary layer. It identifies high-danger inversion traps (pre-dawn and evening) vs. the midday solar dispersion window (the only safe window for ventilation and essential commutes).
+2. **Context-Aware Vulnerability Modeling:** User profiles dynamically modulate exposure calculations based on household composition (infants, elderly, asthmatics), transit modes (metro vs. open two-wheeler), and housing exposure (high-rise vs. ground floor traffic soot).
+3. **Frugal & Accessible Mitigation:** Democratizes clean air access by providing engineering blueprints for sub-₹2,500 DIY Corsi-Rosenthal boxes, static wet-microfiber mopping protocols, and indoor cooking emission management.
+4. **Direct Impact Abatement:** Converts daily micro-decisions (shifting car commutes to rail, transitioning cooking fuels) into verifiable metrics: avoided CO₂, diverted PM2.5 tailpipe grams, and deep alveolar lung sparing.
 
-### 3. 🗓️ Diurnal Routine Planner
-- Hour-by-hour exposure schedule calculating when to stay indoors, seal windows, shift exercise, and wear certified N95 respirators.
-- Reduces inhaled PM2.5 by up to **68%** through timing adjustments alone.
+---
 
-### 4. 🔧 Frugal Indoor Air Quality (IAQ) Hacks Hub
-Step-by-step blueprints and CADR efficiency scores for:
-- **DIY Corsi-Rosenthal Box:** 4× MERV-13 filters + box fan delivering **350–450 CFM** CADR under ₹2,500 ($30).
-- **Static Wet-Microfiber Protocol:** Complete ban on dry broom sweeping to stop PM2.5 resuspension.
-- **Window Microclimate Sealing:** Silicone draft-proofing and positive pressure "clean room" sanctuaries.
-- **NASA Clean Air Botanical Trio:** Snake Plant, Areca Palm, and Peace Lily for nighttime O₂ saturation.
-- **Cooking Protocol:** Induction transition and range hood timing to prevent 600 µg/m³ indoor NO₂ spikes.
+## ⚙️ How the Solution Works
 
-### 5. 📊 Direct Impact & Community Multiplier
-- Interactive sliders calculating:
-  - **Avoided CO₂** (kg) from transit shifts.
-  - **PM2.5 Tailpipe Diverted** (grams).
-  - **Deep Alveolar Sparing** (mg of toxic particulate kept out of deep lungs).
-  - **Community Scaling:** Simulates neighborhood adoption across up to 1,000 homes.
+1. **Dynamic AQI Dial Card:** Displays real-time AQI, WHO exposure multiples, pollutant gauges (PM2.5, PM10, NO₂, CO), and meteorological advisory badges.
+2. **Multi-Axis Household Profiler:** Selects vulnerable family members and living conditions to tailor risk thresholds.
+3. **Diurnal Routine Planner:** Provides an hour-by-hour exposure schedule calculating when to seal windows, when to venture outdoors, and when to wear certified N95 respirators.
+4. **Indoor IAQ Hacks Hub:** Delivers step-by-step blueprints, CADR airflow metrics, and assembly guides for DIY air purifiers and botanical clean air sanctuaries.
+5. **Direct Impact & Community Multiplier:** Sliders calculate personal and neighborhood-scale emissions prevented and lung tissue spared.
+6. **Dual-Engine AeroAI Strategist:** Powered by Google Gemini 1.5 Flash REST API with a zero-downtime client-side heuristic engine for instant, reliable safety guidance.
 
-### 6. 🤖 Dual-Engine AeroAI Strategist (Google Antigravity & Gemini)
-- Integrated with **Google Gemini 1.5 Flash REST API** for live cloud intelligence.
-- Zero-downtime built-in **local domain reasoning engine** ensuring instant, scientifically accurate responses even without an API key.
+---
+
+## 📌 Assumptions Made
+
+1. **Diurnal Temperature Inversion Patterns:** Assumes standard winter continental meteorological behavior where nocturnal radiation cooling traps pollutants near ground level between 05:30 AM – 09:00 AM and 06:00 PM – 10:00 PM, while solar warming lifts the boundary layer between 11:30 AM – 03:30 PM.
+2. **Building Envelope Infiltration:** Assumes typical residential buildings without dedicated central HVAC experience a 50% to 70% PM2.5 outdoor infiltration rate without mechanical sealing or positive pressure filtration.
+3. **Respirator Protection Factor:** Assumes authentic, properly fitted N95/FFP2/KF94 respirators reduce inhaled particulate matter by at least 95%, whereas surgical or cloth masks provide <30% sub-micron filtration.
+4. **Emission & Inhalation Factors:** Assumes internal combustion passenger vehicles emit ~140g CO₂/km in stop-and-go urban traffic, and average human resting inhalation volume is 6–8 liters of air per minute.
+5. **Offline & Emergency Resiliency:** Assumes users in critical situations may encounter network degradation; hence, a comprehensive local domain reasoning engine must function without requiring an API key.
 
 ---
 
@@ -134,5 +124,5 @@ npm run build
 
 ## 📄 License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.  
 Built with ❤️ for **PromptWars: Virtual (Challenge 06)** by Aryan Gajjar.
